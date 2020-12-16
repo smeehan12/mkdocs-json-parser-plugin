@@ -26,7 +26,7 @@ class JsonPlugin(BasePlugin):
         
         from urllib.parse import urlparse
         pres = urlparse(basedir)
-        logger.info("R : "+str(pres.scheme)+" "+str(pres.netloc))
+        logger.info("PresStuff : "+str(pres.scheme)+" "+str(pres.netloc))
         if pres.scheme and pres.netloc:
             from tempfile import TemporaryDirectory
             with TemporaryDirectory() as tmpDir:
@@ -37,7 +37,7 @@ class JsonPlugin(BasePlugin):
                 
                 logger.info("Cloning : "+str(tmpDir)+"  "+str(reponame)+"  "+repopath)
                 
-                subprocess.check_call(["git", "clone", "--depth", "1", basedir, repopath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                subprocess.check_call(["git", "clone", "--depth", "1", basedir+".git", repopath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
         
         schemas = self.config["schemas"]
@@ -46,8 +46,10 @@ class JsonPlugin(BasePlugin):
         
         for schema in schemas:
             logger.info(" >> Schema {0}".format(schema))
-            outpath = os.path.abspath(os.path.join(config["site_dir"], schema))
+            outpath = os.path.abspath(os.path.join(config["site_dir"], schema.replace("schema","md")))
             logger.info(" >> Outpath {0}".format(outpath))
+            
+            
           
 
 #        for pkgConf in self.config["packages"]:
