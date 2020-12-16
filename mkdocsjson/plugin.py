@@ -94,7 +94,7 @@ class JsonPlugin(BasePlugin):
                     logger.info(" >> Schema {0}".format(schema))
                     inpath  = repopath+"/"+schema
                     logger.info(" >> Inpath {0}".format(inpath))
-                    outpath = os.path.abspath(os.path.join(config["site_dir"], 'docs', schema.split("/")[-1].replace(".schema",".md")))
+                    outpath = os.path.abspath(os.path.join(config["site_dir"], schema.split("/")[-1].replace(".schema",".md")))
                     logger.info(" >> Outpath {0}".format(outpath))
                     
                     jsonpath = inpath.replace(".schema",".json")
