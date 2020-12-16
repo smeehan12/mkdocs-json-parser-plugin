@@ -32,7 +32,7 @@ def GetSettings(prop, subsystem):
     return allsettings
     
     
-WriteFile(outpath, myconfigs):
+def WriteFile(outpath, myconfigs):
 
     fout = open(outpath, "w")
     
