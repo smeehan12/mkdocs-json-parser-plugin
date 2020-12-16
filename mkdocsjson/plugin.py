@@ -131,6 +131,10 @@ class JsonPlugin(BasePlugin):
                     WriteFile(outpath, myconfigs)
                         
                     os.system("cat "+outpath)    
+                    
+                    abspath = os.path.abspath(outpath)
+                    
+                    logger.info(" >> OutpathAbs - {0}".format(str(abspath)))
                         
           
 
