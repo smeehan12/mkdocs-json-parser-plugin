@@ -111,7 +111,7 @@ class JsonPlugin(BasePlugin):
                         logger.info(" >> Prop - {0}".format(str(key)))
                         myconfigs.update(stuff[key])
                         
-                    os.system("ls "+outpath[0:-2])
+                    
                     WriteFile(outpath, myconfigs)
                         
                     os.system("cat "+outpath)    
