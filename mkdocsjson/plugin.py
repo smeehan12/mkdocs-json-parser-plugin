@@ -34,7 +34,7 @@ def GetSettings(prop, subsystem):
     
 def WriteFile(outpath, myconfigs):
 
-    fout = open(outpath, "w")
+    fout = open(outpath, "w+")
     
     for key in myconfigs:
         fout.write(key+" : "+myconfigs[key])
@@ -111,6 +111,7 @@ class JsonPlugin(BasePlugin):
                         logger.info(" >> Prop - {0}".format(str(key)))
                         myconfigs.update(stuff[key])
                         
+                    os.system("ls "+outpath[0:-2])
                     WriteFile(outpath, myconfigs)
                         
                     os.system("cat "+outpath)    
