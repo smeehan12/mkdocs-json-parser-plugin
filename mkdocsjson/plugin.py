@@ -64,8 +64,13 @@ class JsonPlugin(BasePlugin):
                     logger.info(" >> Inpath {0}".format(inpath))
                     outpath = os.path.abspath(os.path.join(config["site_dir"], schema.replace(".schema",".md")))
                     logger.info(" >> Outpath {0}".format(outpath))
+                    
+                    jsonpath = inpath.replace(".schema",".json")
+                    
+                    os.system("mv "+inpath+"  "+jsonpath)
+                    
                   
-                    fin = open(inpath,"r")
+                    fin = open(jsonpath,"r")
                     lines = fin.readlines()
                     logger.info(" >> NLines {0}".format(str(len(lines))))
             
