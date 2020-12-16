@@ -34,7 +34,10 @@ def GetSettings(prop, subsystem):
           for subprop in subsystem['items']['properties']:       
               allsettings.update(GetSettings(subprop, subsystem['items']['properties'][subprop]))
     else:
-        allsettings.update({prop : subsystem['description']})
+        if 'description' in subsystem:
+          allsettings.update({prop : subsystem['description']})
+        else:
+          allsettings.update({prop : "MISSING"})
         
     return allsettings
     
