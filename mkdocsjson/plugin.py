@@ -67,9 +67,7 @@ class JsonPlugin(BasePlugin):
                     
                     jsonpath = inpath.replace(".schema",".json")
                     
-                    os.system("mv "+inpath+"  "+jsonpath)
-                    
-                    logger.info(" >> JSonPath - {0}".format(str(jsonpath)))
+                    logger.info(" >> JSonPath - {0}".format(str(inpath)))
                   
                     fin = open(inpath,"r")
                     lines = fin.readlines()
