@@ -44,6 +44,11 @@ class JsonPlugin(BasePlugin):
                 #subprocess.call([command])
                 subprocess.check_call(["git", "clone", "--depth", "1", basedir, repopath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
+                lineout = ""
+                for path in os.system("ls "+repopath):
+                    lineout += path
+                    lineout += " - "
+                logger.info("ClonedThing : "+lineout)
         
         schemas = self.config["schemas"]
         
@@ -55,7 +60,7 @@ class JsonPlugin(BasePlugin):
             logger.info(" >> Inpath {0}".format(inpath))
             outpath = os.path.abspath(os.path.join(config["site_dir"], schema.replace("schema","md")))
             logger.info(" >> Outpath {0}".format(outpath))
-            
+                  
             fin = open(inpath,"r")
             lines = fin.readlines()
             logger.info(" >> NLines {0}".format(str(len(lines))))
