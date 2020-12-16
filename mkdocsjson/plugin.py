@@ -9,7 +9,8 @@ from .configitems import ConfigItems
 from mkdocs.plugins import BasePlugin
 
 
-def ParseSchema(inputpath, schema)
+def ParseSchema(schema,inputpath,outputpath):
+    logger.info(" >> Parsing Schema {0} from {1} into {2}".format(schema,inputpath,outputpath))
 
 class JsonPlugin(BasePlugin):
     config_scheme = (
