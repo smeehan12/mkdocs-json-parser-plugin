@@ -37,7 +37,7 @@ class JsonPlugin(BasePlugin):
                 
                 logger.info("Cloning : "+str(tmpDir)+"  "+str(reponame)+"  "+repopath)
                 
-                command = "git clone --depth 1"+basedir+".git  "+repopath
+                command = "git clone --depth 1 "+basedir+".git  "+repopath
 
                 logger.info("Command : "+command)
                 
