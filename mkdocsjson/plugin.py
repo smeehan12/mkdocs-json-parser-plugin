@@ -11,13 +11,6 @@ from mkdocs.plugins import BasePlugin
 
 class JsonPlugin(BasePlugin):
     config_scheme = (
-        ("packages", ConfigItems(
-            ("url"    , mkd.Type(str)),
-            ("config" , mkd.Type(str)),
-            ("workdir", mkd.Type(str)),
-            )),
-        ("tryclone", mkd.Type(bool, default=False)),
-        ("recursive", mkd.Type(bool, default=False)),
         ("url", mkd.Type(str)),
         ("schemas", mkd.Type(list))
         )
