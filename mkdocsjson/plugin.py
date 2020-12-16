@@ -29,7 +29,7 @@ class JsonPlugin(BasePlugin):
                 try:
                     basedir = cfg.get("url", ".")
                     icfg = cfg.get("config")
-                    logger.info("Running doxygen for {0} with {1}, saving into {2}".format(
+                    logger.info("Running json SAM for {0} with {1}, saving into {2}".format(
                         (basedir if basedir != "." else "current directory"), (icfg if icfg else "default config"), outpath))
                     runDoxygen(basedir, cfg=icfg, workdir=cfg.get("workdir"), dest=outpath, tryClone=self.config["tryclone"], recursive=self.config["recursive"])                
                 except Exception as e:
