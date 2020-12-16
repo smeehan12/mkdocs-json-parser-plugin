@@ -8,6 +8,8 @@ from mkdocs.config import config_options as mkd
 from .configitems import ConfigItems
 from mkdocs.plugins import BasePlugin
 
+import json
+
 
 def ParseSchema(schema,inputpath,outputpath):
     logger.info(" >> Parsing Schema {0} from {1} into {2}".format(schema,inputpath,outputpath))
@@ -60,14 +62,21 @@ class JsonPlugin(BasePlugin):
                     logger.info(" >> Schema {0}".format(schema))
                     inpath  = repopath+"/"+schema
                     logger.info(" >> Inpath {0}".format(inpath))
-                    outpath = os.path.abspath(os.path.join(config["site_dir"], schema.replace("schema","md")))
+                    outpath = os.path.abspath(os.path.join(config["site_dir"], schema.replace(".schema",".md")))
                     logger.info(" >> Outpath {0}".format(outpath))
                   
                     fin = open(inpath,"r")
                     lines = fin.readlines()
                     logger.info(" >> NLines {0}".format(str(len(lines))))
             
-            
+                    jsonschema = json.load(fin)
+                    
+                    myconfigs = {}
+                    
+                    for key,entry in jsonschema["properties"]["settings"]["properties"]:
+                        logger.info(" >> Prop - ".format(str(key)+" - "+str(entry)))
+                        
+                        
           
 
 #        for pkgConf in self.config["packages"]:
