@@ -26,6 +26,7 @@ class JsonPlugin(BasePlugin):
         
         from urllib.parse import urlparse
         pres = urlparse(basedir)
+        logger.info("R : ",pres.scheme," ",pres.netloc)
         if pres.scheme and pres.netloc:
             from tempfile import TemporaryDirectory
             with TemporaryDirectory() as tmpDir:
