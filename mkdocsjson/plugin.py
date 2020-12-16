@@ -8,7 +8,7 @@ from mkdocs.config import config_options as mkd
 from .configitems import ConfigItems
 from mkdocs.plugins import BasePlugin
 
-import json
+
 
 
 def ParseSchema(schema,inputpath,outputpath):
@@ -74,12 +74,13 @@ class JsonPlugin(BasePlugin):
                     lines = fin.readlines()
                     logger.info(" >> NLines {0}".format(str(len(lines))))
             
+                    import json
                     jsonschema = json.load(fin)
                     
                     myconfigs = {}
                     
                     for key,entry in jsonschema["properties"]["settings"]["properties"]:
-                        logger.info(" >> Prop - ".format(str(key)+" - "+str(entry)))
+                        logger.info(" >> Prop - {0}".format(str(key)))
                         
                         
           
