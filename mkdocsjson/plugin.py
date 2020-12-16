@@ -34,6 +34,9 @@ class JsonPlugin(BasePlugin):
                 if len(reponame) == 0:
                     reponame = "repo"
                 repopath = os.path.join(tmpDir, reponame)
+                
+                logger.info("Cloning : "+str(tmpDir)+"  "+str(reponame)+"  "+repopath)
+                
                 subprocess.check_call(["git", "clone", "--depth", "1", basedir, repopath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
         
