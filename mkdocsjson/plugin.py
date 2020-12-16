@@ -71,13 +71,17 @@ class JsonPlugin(BasePlugin):
                     
                     logger.info(" >> JSonPath - {0}".format(str(jsonpath)))
                   
-                    fin = open(jsonpath,"r")
+                    fin = open(inpath,"r")
                     lines = fin.readlines()
                     logger.info(" >> NLines {0}".format(str(len(lines))))
-                    os.system("cat  "+jsonpath)
             
                     import json
-                    jsonschema = json.load(fin)
+                    
+                    jsonstring = ""
+                    for line in lines:
+                       jsonstring += line
+
+                    jsonschema = json.load(jsonstring)
                     
                     myconfigs = {}
                     
