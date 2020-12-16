@@ -79,7 +79,7 @@ class JsonPlugin(BasePlugin):
                     for line in lines:
                        jsonstring += line
 
-                    jsonschema = json.load(jsonstring)
+                    jsonschema = json.loads(jsonstring)
                     
                     myconfigs = {}
                     
