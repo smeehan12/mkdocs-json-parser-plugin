@@ -64,6 +64,9 @@ class JsonPlugin(BasePlugin):
         
         basedir = url
         
+        workdir = os.path.dirname(config)
+        print(workdir)
+        
         from urllib.parse import urlparse
         pres = urlparse(basedir)
         logger.info("PresStuff : "+str(pres.scheme)+" "+str(pres.netloc))
