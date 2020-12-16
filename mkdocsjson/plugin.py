@@ -18,6 +18,8 @@ class JsonPlugin(BasePlugin):
             )),
         ("tryclone", mkd.Type(bool, default=False)),
         ("recursive", mkd.Type(bool, default=False)),
+        ("url", mkd.Type(str)),
+        ("schemas", mkd.Type(list))
         )
 
     def on_post_build(self, config):
