@@ -52,20 +52,20 @@ class JsonPlugin(BasePlugin):
                 #    lineout += " - "
                 #logger.info("ClonedThing : "+lineout)
         
-        schemas = self.config["schemas"]
+                schemas = self.config["schemas"]
         
-        logger.info("Running json on {0}".format(url))
+                logger.info("Running json on {0}".format(url))
         
-        for schema in schemas:
-            logger.info(" >> Schema {0}".format(schema))
-            inpath  = repopath+"/"+schema
-            logger.info(" >> Inpath {0}".format(inpath))
-            outpath = os.path.abspath(os.path.join(config["site_dir"], schema.replace("schema","md")))
-            logger.info(" >> Outpath {0}".format(outpath))
+                for schema in schemas:
+                    logger.info(" >> Schema {0}".format(schema))
+                    inpath  = repopath+"/"+schema
+                    logger.info(" >> Inpath {0}".format(inpath))
+                    outpath = os.path.abspath(os.path.join(config["site_dir"], schema.replace("schema","md")))
+                    logger.info(" >> Outpath {0}".format(outpath))
                   
-            fin = open(inpath,"r")
-            lines = fin.readlines()
-            logger.info(" >> NLines {0}".format(str(len(lines))))
+                    fin = open(inpath,"r")
+                    lines = fin.readlines()
+                    logger.info(" >> NLines {0}".format(str(len(lines))))
             
             
           
