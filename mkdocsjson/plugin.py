@@ -65,7 +65,7 @@ class JsonPlugin(BasePlugin):
         basedir = url
         
         workdir = os.path.dirname(config)
-        print(workdir)
+        logger.info("Workdir : ",workdir)
         
         from urllib.parse import urlparse
         pres = urlparse(basedir)
