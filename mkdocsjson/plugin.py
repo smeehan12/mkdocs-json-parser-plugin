@@ -58,7 +58,7 @@ class JsonPlugin(BasePlugin):
         ("schemas", mkd.Type(list))
         )
 
-    def on_pre_build(self, config):
+    def on_post_build(self, config):
     
         url     = self.config["url"]
         
