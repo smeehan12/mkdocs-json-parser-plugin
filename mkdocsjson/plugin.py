@@ -30,8 +30,9 @@ def GetSettings(prop, subsystem):
         else:
           allsettings.update({prop : "MISSING"})
         # tunnel down one level and get attributes for each property
-        for subprop in subsystem['items']['properties']:       
-            allsettings.update(GetSettings(subprop, subsystem['items']['properties'][subprop]))
+        if subsystem['items']['type']=='object':
+          for subprop in subsystem['items']['properties']:       
+              allsettings.update(GetSettings(subprop, subsystem['items']['properties'][subprop]))
     else:
         allsettings.update({prop : subsystem['description']})
         
