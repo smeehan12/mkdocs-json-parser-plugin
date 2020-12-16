@@ -10,9 +10,37 @@ from mkdocs.plugins import BasePlugin
 
 
 
+def GetSettings(prop, subsystem):
 
-def ParseSchema(schema,inputpath,outputpath):
-    logger.info(" >> Parsing Schema {0} from {1} into {2}".format(schema,inputpath,outputpath))
+    allsettings = {}
+
+    if subsystem['type']=='object':
+        # add the top level singular one
+        allsettings.update({prop : subsystem['description']})
+        # tunnel down one level and get attributes for each property
+        for subprop in subsystem['properties']:       
+            allsettings.update(GetSettings(subprop, subsystem['properties'][subprop]))
+    elif subsystem['type']=='array':
+        # add the top level singular one
+        allsettings.update({prop : subsystem['description']})
+        # tunnel down one level and get attributes for each property
+        for subprop in subsystem['items']['properties']:       
+            allsettings.update(GetSettings(subprop, subsystem['items']['properties'][subprop]))
+    else:
+        allsettings.update({prop : subsystem['description']})
+        
+    return allsettings
+    
+    
+WriteFile(outpath, myconfigs):
+
+    fout = open(outpath, "w")
+    
+    for key in myconfigs:
+        fout.write(key+" : "+myconfigs[key])
+        
+    fout.close()
+
 
 class JsonPlugin(BasePlugin):
     config_scheme = (
@@ -47,12 +75,6 @@ class JsonPlugin(BasePlugin):
                 subprocess.check_call(["git", "clone", "--depth", "1", basedir, repopath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
                 os.system("ls "+repopath)
-
-                #lineout = ""
-                #for path in os.system("ls "+repopath):
-                #    lineout += path
-                #    lineout += " - "
-                #logger.info("ClonedThing : "+lineout)
         
                 schemas = self.config["schemas"]
         
@@ -83,9 +105,15 @@ class JsonPlugin(BasePlugin):
                     
                     myconfigs = {}
                     
-                    for key,entry in jsonschema["properties"]["settings"]["properties"]:
+                    stuff = jsonschema["properties"]["settings"]["properties"]
+                    
+                    for key in stuff:
                         logger.info(" >> Prop - {0}".format(str(key)))
+                        myconfigs.update(stuff[key])
                         
+                    WriteFile(outpath, myconfigs)
+                        
+                    os.system("cat "+outpath)    
                         
           
 
