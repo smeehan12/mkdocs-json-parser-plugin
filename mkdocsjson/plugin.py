@@ -46,8 +46,14 @@ class JsonPlugin(BasePlugin):
         
         for schema in schemas:
             logger.info(" >> Schema {0}".format(schema))
+            inpath  = repopath+"/"+schema
+            logger.info(" >> Inpath {0}".format(inpath))
             outpath = os.path.abspath(os.path.join(config["site_dir"], schema.replace("schema","md")))
             logger.info(" >> Outpath {0}".format(outpath))
+            
+            fin = open(inpath,"r")
+            lines = fin.readlines()
+            logger.info(" >> NLines {0}".format(str(len(lines))))
             
             
           
