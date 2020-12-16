@@ -41,7 +41,7 @@ class JsonPlugin(BasePlugin):
 
                 logger.info("Command : "+command)
                 
-                subprocess.check_call(command)
+                subprocess.call([command])
 
         
         schemas = self.config["schemas"]
