@@ -74,6 +74,7 @@ class JsonPlugin(BasePlugin):
                     fin = open(jsonpath,"r")
                     lines = fin.readlines()
                     logger.info(" >> NLines {0}".format(str(len(lines))))
+                    os.system("cat  "+jsonpath)
             
                     import json
                     jsonschema = json.load(fin)
