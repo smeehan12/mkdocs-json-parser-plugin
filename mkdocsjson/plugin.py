@@ -37,7 +37,11 @@ class JsonPlugin(BasePlugin):
                 
                 logger.info("Cloning : "+str(tmpDir)+"  "+str(reponame)+"  "+repopath)
                 
-                subprocess.check_call(["git", "clone", "--depth", "1", basedir+".git", repopath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                command = "git clone --depth 1"+basedir+".git  "+repopath
+
+                logger.info("Command : "+command)
+                
+                subprocess.run(command)
 
         
         schemas = self.config["schemas"]
