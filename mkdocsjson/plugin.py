@@ -9,6 +9,8 @@ from .configitems import ConfigItems
 from mkdocs.plugins import BasePlugin
 
 
+def ParseSchema(inputpath, schema)
+
 class JsonPlugin(BasePlugin):
     config_scheme = (
         ("url", mkd.Type(str)),
@@ -18,15 +20,31 @@ class JsonPlugin(BasePlugin):
     def on_post_build(self, config):
     
         url     = self.config["url"]
+        
+        basedir = url
+        
+        from urllib.parse import urlparse
+        pres = urlparse(basedir)
+        if pres.scheme and pres.netloc:
+            from tempfile import TemporaryDirectory
+            with TemporaryDirectory() as tmpDir:
+                reponame = os.path.split(basedir)[-1].split(".")[0]
+                if len(reponame) == 0:
+                    reponame = "repo"
+                repopath = os.path.join(tmpDir, reponame)
+                subprocess.check_call(["git", "clone", "--depth", "1", basedir, repopath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+        
         schemas = self.config["schemas"]
         
         logger.info("Running json on {0}".format(url))
         
         for schema in schemas:
-          logger.info("Schema {0}".format(schema))
-          outpath = os.path.abspath(os.path.join(config["site_dir"], schema))
-          logger.info("Outpath {0}".format(outpath))
-    
+            logger.info(" >> Schema {0}".format(schema))
+            outpath = os.path.abspath(os.path.join(config["site_dir"], schema))
+            logger.info(" >> Outpath {0}".format(outpath))
+          
+
 #        for pkgConf in self.config["packages"]:
 #            for outname, cfg in pkgConf.items():
 #                outpath = os.path.abspath(os.path.join(config["site_dir"], outname))
