@@ -16,7 +16,7 @@ def GetSettings(prop, subsystem):
 
     if subsystem['type']=='object':
         # add the top level singular one
-        if subsystem.has_key('description'):
+        if 'description' in subsystem:
           allsettings.update({prop : subsystem['description']})
         else:
           allsettings.update({prop : "MISSING"})
@@ -25,7 +25,7 @@ def GetSettings(prop, subsystem):
             allsettings.update(GetSettings(subprop, subsystem['properties'][subprop]))
     elif subsystem['type']=='array':
         # add the top level singular one
-        if subsystem.has_key('description'):
+        if 'description' in subsystem:
           allsettings.update({prop : subsystem['description']})
         else:
           allsettings.update({prop : "MISSING"})
