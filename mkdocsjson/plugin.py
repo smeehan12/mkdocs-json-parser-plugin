@@ -109,7 +109,9 @@ class JsonPlugin(BasePlugin):
                     
                     for key in stuff:
                         logger.info(" >> Prop - {0}".format(str(key)))
-                        myconfigs.update(stuff[key])
+                        myconfigs.update(GetSettings(key, stuff[key]))
+                        
+                    
                         
                     
                     WriteFile(outpath, myconfigs)
@@ -118,14 +120,3 @@ class JsonPlugin(BasePlugin):
                         
           
 
-#        for pkgConf in self.config["packages"]:
-#            for outname, cfg in pkgConf.items():
-#                outpath = os.path.abspath(os.path.join(config["site_dir"], outname))
-#                try:
-#                    basedir = cfg.get("url", ".")
-#                    icfg = cfg.get("config")
-#                    logger.info("Running json SAM for {0} with {1}, saving into {2}".format(
-#                        (basedir if basedir != "." else "current directory"), (icfg if icfg else "default config"), outpath))
-#                    runDoxygen(basedir, cfg=icfg, workdir=cfg.get("workdir"), dest=outpath, tryClone=self.config["tryclone"], recursive=self.config["recursive"])                
-#                except Exception as e:
-#                    logger.error("Skipped doxygen for package {0}: {1!s}".format(outname, e))
