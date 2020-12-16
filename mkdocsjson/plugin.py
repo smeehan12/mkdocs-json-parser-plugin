@@ -16,13 +16,19 @@ def GetSettings(prop, subsystem):
 
     if subsystem['type']=='object':
         # add the top level singular one
-        allsettings.update({prop : subsystem['description']})
+        if subsystem.has_key('description'):
+          allsettings.update({prop : subsystem['description']})
+        else:
+          allsettings.update({prop : "MISSING"})
         # tunnel down one level and get attributes for each property
         for subprop in subsystem['properties']:       
             allsettings.update(GetSettings(subprop, subsystem['properties'][subprop]))
     elif subsystem['type']=='array':
         # add the top level singular one
-        allsettings.update({prop : subsystem['description']})
+        if subsystem.has_key('description'):
+          allsettings.update({prop : subsystem['description']})
+        else:
+          allsettings.update({prop : "MISSING"})
         # tunnel down one level and get attributes for each property
         for subprop in subsystem['items']['properties']:       
             allsettings.update(GetSettings(subprop, subsystem['items']['properties'][subprop]))
