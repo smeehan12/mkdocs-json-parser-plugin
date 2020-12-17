@@ -169,7 +169,7 @@ class JsonPlugin(BasePlugin):
                 ##############################
                 logger.info("Adding new files to local directory for configs")
                 fasercons = self.config["configs"]
-                for fasercon in configs:
+                for fasercon in fasercons:
                 
                     entry  = configs[fasercon]
                 
