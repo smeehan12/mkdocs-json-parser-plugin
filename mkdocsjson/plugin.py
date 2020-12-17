@@ -208,8 +208,8 @@ class JsonPlugin(BasePlugin):
                       json.dump(stuff, outfile, indent=4)
                       
                     # strip of leading and trailing curly braces
-                    fin  = open(outfile,"r")
-                    fout = open(docs_dir+str(entry+".md"))
+                    fin  = open(outpath,"r")
+                    fout = open(docs_dir+str(entry+".md"),"w")
                     
                     for line in fin.readlines[1:-1]:
                       fout.write(line)
