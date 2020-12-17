@@ -142,6 +142,31 @@ class JsonPlugin(BasePlugin):
                 schemas = self.config["schemas"]
         
                 logger.info("Running json on {0}".format(url))
+                
+                out = []
+    
+                docs_dir=""
+                
+                # add existing files
+                for i in files:
+                    name = i.src_path
+                    logger.info(" >> File - {0}".format(str(name)))        
+                    logger.info(" >> Type - {0}".format(str(type(i))))       
+        
+                    logger.info(" >> File src_path      - {0}".format(str(i.src_path)))
+                    logger.info(" >> File abs_path      - {0}".format(str(i.abs_src_path)))
+                    logger.info(" >> File dest_path     - {0}".format(str(i.dest_path)))
+                    logger.info(" >> File abs_dest_path - {0}".format(str(i.abs_dest_path)))
+                    logger.info(" >> File url           - {0}".format(str(i.url)))
+        
+                    # get abs_src_path for later use
+                    if "docs" ==  str(i.abs_src_path.split("/")[-2]):
+                        docs_dir = ""
+                        for dir in i.abs_src_path.split("/")[0:-1]:
+                            docs_dir += dir
+                            docs_dir += "/"
+        
+                    out.append(i)
         
                 for schema in schemas:
                     logger.info(" >> Schema {0}".format(schema))
@@ -194,32 +219,7 @@ class JsonPlugin(BasePlugin):
                     fin = open(abspath,"r")
                     logger.info(" >> Lines - {0}".format(str(len(fin.readlines()))))
                     
-                    
-                    out = []
-        
-                    docs_dir=""
-                    
-                    # add existing files
-                    for i in files:
-                        name = i.src_path
-                        logger.info(" >> File - {0}".format(str(name)))        
-                        logger.info(" >> Type - {0}".format(str(type(i))))       
-            
-                        logger.info(" >> File src_path      - {0}".format(str(i.src_path)))
-                        logger.info(" >> File abs_path      - {0}".format(str(i.abs_src_path)))
-                        logger.info(" >> File dest_path     - {0}".format(str(i.dest_path)))
-                        logger.info(" >> File abs_dest_path - {0}".format(str(i.abs_dest_path)))
-                        logger.info(" >> File url           - {0}".format(str(i.url)))
-            
-                        # get abs_src_path for later use
-                        if "docs" ==  str(i.abs_src_path.split("/")[-2]):
-                            docs_dir = ""
-                            for dir in i.abs_src_path.split("/")[0:-1]:
-                                docs_dir += dir
-                                docs_dir += "/"
-            
-             
-                        out.append(i)
+                
             
             
                     # add the new parsed file
