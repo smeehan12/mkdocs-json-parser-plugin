@@ -9,6 +9,8 @@ from mkdocs.config import config_options as mkd
 from .configitems import ConfigItems
 from mkdocs.plugins import BasePlugin
 
+import mkdocs.structure.files
+
 
 
 def GetSettings(prop, subsystem):
@@ -141,5 +143,10 @@ class JsonPlugin(BasePlugin):
                     logger.info(" >> Lines - {0}".format(str(len(fin.readlines()))))
                     
                         
-          
+    def on_files(self, files, config):
+        globs = self.config['glob'] or []  
+        
+        for i in files:
+            name = i.src_path
+            logger.info(" >> File - {0}".format(str(name)))        
 
