@@ -12,6 +12,8 @@ from mkdocs.plugins import BasePlugin
 import mkdocs.structure.files
 from mkdocs.structure.files import File
 
+import copy
+
 
 
 def GetSettings(prop, subsystem):
@@ -176,11 +178,14 @@ class JsonPlugin(BasePlugin):
         # add the new parsed file
         logger.info(" New Fuckin File")
         
+        # put the file in the local location from this temp directory
+        os.system("cp "+abspath+" "+docs_dir)
+        
         # get the docs path
         path = str(abspath.split("/")[-1])
         src_dir = docs_dir
         
-        newfile = File( path, src_dir, abspath, use_directory_urls=False)
+        newfile = File( path, src_dir, abspath, use_directory_urls=True)
         
         logger.info(" >> File src_path      - {0}".format(str(newfile.src_path)))
         logger.info(" >> File abs_src_path  - {0}".format(str(newfile.abs_src_path)))
@@ -189,7 +194,7 @@ class JsonPlugin(BasePlugin):
         logger.info(" >> File url           - {0}".format(str(newfile.url)))
         
         
-        out.append(newfile)
+        out.append(copy.copy(newfile))
             
         return mkdocs.structure.files.Files(out)
                     
