@@ -97,6 +97,8 @@ class JsonPlugin(BasePlugin):
                 for schema in schemas:
                     logger.info(" >> Schema {0}".format(schema))
                     inpath  = repopath+"/"+schema
+                                    
+                    
                     logger.info(" >> Inpath {0}".format(inpath))
                     outpath = os.path.abspath(os.path.join(config["site_dir"], schema.split("/")[-1].replace(".schema",".md")))
                     logger.info(" >> Outpath {0}".format(outpath))
@@ -145,6 +147,8 @@ class JsonPlugin(BasePlugin):
                     
                     
         out = []
+        
+        docsdir=""
                     
         # add existing files
         for i in files:
@@ -158,16 +162,25 @@ class JsonPlugin(BasePlugin):
             logger.info(" >> File abs_dest_path - {0}".format(str(i.abs_dest_path)))
             logger.info(" >> File url           - {0}".format(str(i.url)))
             
+            # get abs_src_path for later use
+            if "/docs/" in str(i.abs_src_path):
+                docsdir = str(i.abs_src_path)
+            
              
             out.append(i)
             
             
         # add the new parsed file
         logger.info(" New Fuckin File")
-        newfile = File( str(abspath), str(config["site_dir"]), str(config["site_dir"]), use_directory_urls=False)
+        
+        # get the docs path
+        path = str(abspath.split("/")[-1])
+        src_dir = docs_dir
+        
+        newfile = File( path, src_dir, ".", use_directory_urls=False)
         
         logger.info(" >> File src_path      - {0}".format(str(newfile.src_path)))
-        logger.info(" >> File abs_path      - {0}".format(str(newfile.abs_src_path)))
+        logger.info(" >> File abs_src_path  - {0}".format(str(newfile.abs_src_path)))
         logger.info(" >> File dest_path     - {0}".format(str(newfile.dest_path)))
         logger.info(" >> File abs_dest_path - {0}".format(str(newfile.abs_dest_path)))
         logger.info(" >> File url           - {0}".format(str(newfile.url)))
