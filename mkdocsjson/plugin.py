@@ -61,7 +61,7 @@ class JsonPlugin(BasePlugin):
         ("schemas", mkd.Type(list))
         )
 
-    def on_pre_build(self, config):
+    def on_files(self, files, config):
     
         url     = self.config["url"]
         
@@ -142,10 +142,21 @@ class JsonPlugin(BasePlugin):
                     fin = open(abspath,"r")
                     logger.info(" >> Lines - {0}".format(str(len(fin.readlines()))))
                     
-                        
-    def on_files(self, files, config):
-        
+                    
+        out = []
+                    
         for i in files:
             name = i.src_path
             logger.info(" >> File - {0}".format(str(name)))        
+            logger.info(" >> Type - {0}".format(str(type(i))))        
+            out.append(i)
+            
+        return mkdocs.structure.files.Files(out)
+                    
+                        
+#    def on_files(self, files, config):
+#        
+#        for i in files:
+#            name = i.src_path
+#            logger.info(" >> File - {0}".format(str(name)))        
 
