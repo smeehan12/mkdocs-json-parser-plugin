@@ -178,7 +178,7 @@ class JsonPlugin(BasePlugin):
                     
                     inpath  = repopath+"/"+config
                                                     
-                    outpath = os.path.abspath(os.path.join(config["site_dir"], str(entry+".md"))
+                    outpath = os.path.abspath(os.path.join(config["site_dir"], str(entry+".md")))
                     
                     fin = open(inpath,"r")
                     lines = fin.readlines()
