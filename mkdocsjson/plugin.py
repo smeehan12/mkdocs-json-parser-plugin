@@ -132,6 +132,9 @@ class JsonPlugin(BasePlugin):
                     abspath = os.path.abspath(outpath)
                     
                     logger.info(" >> OutpathAbs - {0}".format(str(abspath)))
+                    
+                    os.system("ls "+str(config["site_dir"]))
+                    
                         
           
 
