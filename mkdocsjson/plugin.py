@@ -211,7 +211,7 @@ class JsonPlugin(BasePlugin):
                     fin  = open(outpath,"r")
                     fout = open(docs_dir+str(entry+".md"),"w")
                     
-                    for line in fin.readlines[1:-1]:
+                    for line in fin.readlines()[1:-1]:
                       fout.write(line)
                       
                     fin.close()
