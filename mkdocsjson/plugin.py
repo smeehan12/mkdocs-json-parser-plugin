@@ -188,7 +188,7 @@ class JsonPlugin(BasePlugin):
         path = str(abspath.split("/")[-1])
         src_dir = docs_dir
         
-        newfile = File( path, src_dir, abspath, use_directory_urls=True)
+        newfile = File( path, src_dir, path, use_directory_urls=True)
         
         logger.info(" >> File src_path      - {0}".format(str(newfile.src_path)))
         logger.info(" >> File abs_src_path  - {0}".format(str(newfile.abs_src_path)))
