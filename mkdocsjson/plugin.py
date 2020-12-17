@@ -122,7 +122,7 @@ class JsonPlugin(BasePlugin):
     config_scheme = (
         ("url", mkd.Type(str)),
         ("schemas", mkd.Type(list)),
-        ("configs", mkd.Type(list))
+        ("configs", mkd.Type(dict))
         )
 
     '''
@@ -169,10 +169,9 @@ class JsonPlugin(BasePlugin):
                 ##############################
                 logger.info("Adding new files to local directory for configs")
                 configs = self.config["configs"]
-                for config_pair in configs:
+                for config in configs:
                 
-                    config = config_pair[0]
-                    entry  = config_pair[1]
+                    entry  = configs[config]
                 
                     logger.info(" >> Config {0}".format(config))
                     inpath  = repopath+"/"+config
@@ -200,9 +199,7 @@ class JsonPlugin(BasePlugin):
                     with open(outpath, "w") as outfile:
                       json.dump(stuff, outfile, indent=4)
                         
-                    # add the new parsed file
-                    #logger.info(" New Fuckin File")
-        
+
                     # put the file in the local location from this temp directory
                     command = "cp "+abspath+" "+docs_dir
                     os.system(command)
