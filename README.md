@@ -7,6 +7,7 @@ insertion into a site via the use of a plugin like [mkdocs-include-markdown-plug
 This plugin was written expressly for use in the [FASER collaboration]() TDAQ documentation
 and so may not be as flexible as you wish.  Pull requests are welcomed!
 
+# Usage
 As an example, the configuration
 ```yaml
   - json:
@@ -22,3 +23,4 @@ base name as the schema.
 In this case, the remote `ssh://git@gitlab.cern.ch:7999/faser/daq.git` will be cloned and the two
 schemas (`configs/schemas/TriggerReceiver.schema`, `configs/schemas/DigitizerReceiver.schema`)  
 will be parsed into `docs/TriggerReceiver.md` and `docs/DigitizerReceiver.md`.
+

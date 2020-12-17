@@ -17,7 +17,7 @@ import copy
 '''
 This builds the dictionary of relevant properties from the schema you feed it
 '''
-def BuildPropDictionary(subsystem):
+def BuildPropDictionary(prop, subsystem):
 
     myProps = {}
   
@@ -30,6 +30,11 @@ def BuildPropDictionary(subsystem):
     # description
     if 'description' in subsystem:
       myProps["Description"] = subsystem['description']
+    elif 'options' in subsystem:
+      if 'infoText' in subsystem['options']:
+        myProps["Description"] = subsystem['options']['infoText']
+      else:
+        myProps["Description"] = "MISSING"
     else:
       myProps["Description"] = "MISSING"
           
@@ -81,20 +86,20 @@ def GetSettings(prop, subsystem):
 
     if subsystem['type']=='object':
         # add the top level singular one
-        allsettings.update({prop : BuildPropDictionary(subsystem)})
+        allsettings.update({prop : BuildPropDictionary(prop, subsystem)})
 
         # tunnel down one level and get attributes for each property
         for subprop in subsystem['properties']:       
             allsettings.update(GetSettings(subprop, subsystem['properties'][subprop]))
     elif subsystem['type']=='array':
         # add the top level singular one
-        allsettings.update({prop : BuildPropDictionary(subsystem)})
+        allsettings.update({prop : BuildPropDictionary(prop, subsystem)})
         # tunnel down one level and get attributes for each property
         if subsystem['items']['type']=='object':
           for subprop in subsystem['items']['properties']:       
               allsettings.update(GetSettings(subprop, subsystem['items']['properties'][subprop]))
     else:
-        allsettings.update({prop : BuildPropDictionary(subsystem)})
+        allsettings.update({prop : BuildPropDictionary(prop, subsystem)})
         
     return allsettings
     
