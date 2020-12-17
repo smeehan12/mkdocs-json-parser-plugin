@@ -174,6 +174,8 @@ class JsonPlugin(BasePlugin):
                     entry  = configs[config]
                 
                     logger.info(" >> Config {0}".format(config))
+                    logger.info(" >> Entry {0}".format(entry))
+                    
                     inpath  = repopath+"/"+config
                                                     
                     outpath = os.path.abspath(os.path.join(config["site_dir"], entry+".md"))
