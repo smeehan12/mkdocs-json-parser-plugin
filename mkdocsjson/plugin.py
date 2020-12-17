@@ -148,7 +148,7 @@ class JsonPlugin(BasePlugin):
                     
         out = []
         
-        docsdir=""
+        docs_dir=""
                     
         # add existing files
         for i in files:
@@ -164,7 +164,7 @@ class JsonPlugin(BasePlugin):
             
             # get abs_src_path for later use
             if "/docs/" in str(i.abs_src_path):
-                docsdir = str(i.abs_src_path)
+                docs_dir = str(i.abs_src_path)
             
              
             out.append(i)
