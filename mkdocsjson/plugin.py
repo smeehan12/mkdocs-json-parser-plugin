@@ -144,7 +144,6 @@ class JsonPlugin(BasePlugin):
                     
                         
     def on_files(self, files, config):
-        globs = self.config['glob'] or []  
         
         for i in files:
             name = i.src_path
