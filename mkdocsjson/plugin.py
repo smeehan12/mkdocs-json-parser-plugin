@@ -179,7 +179,10 @@ class JsonPlugin(BasePlugin):
         logger.info(" New Fuckin File")
         
         # put the file in the local location from this temp directory
-        os.system("cp "+abspath+" "+docs_dir)
+        command = "cp "+abspath+" "+docs_dir
+        os.system(command)
+
+        logger.info("content : {0}".format(os.system("ls "+docs_dir)))
         
         # get the docs path
         path = str(abspath.split("/")[-1])
