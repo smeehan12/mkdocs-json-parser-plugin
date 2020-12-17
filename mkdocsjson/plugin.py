@@ -15,6 +15,59 @@ from mkdocs.structure.files import File
 import copy
 
 
+def BuildPropDictionary(subsystem):
+
+    myProps = {}
+  
+    # title
+    if 'title' in subsystem:
+      myProps["Title"] = subsystem['title']
+    else:
+      myProps["Title"] = prop
+      
+    # description
+    if 'description' in subsystem:
+      myProps["Description"] = subsystem['description']
+    else:
+      myProps["Description"] = "MISSING"
+          
+    # nitems
+    if subsystem['type']=='array':
+      if 'minItems' in subsystem and 'maxItems' in subsystem:
+        myProps["NEntries"] = '['+str(subsystem['minItems'])+','+str(subsystem['minItems'])+']'
+      elif 'minItems' in subsystem and 'maxItems' not in subsystem: 
+        myProps["NEntries"] = '['+str(subsystem['minItems'])+', no max]'
+      elif 'minItems' not in subsystem and 'maxItems' in subsystem: 
+        myProps["NEntries"] = '[no min, '+str(subsystem['maxItems'])+']'
+    
+    # default
+    if 'default' in subsystem:
+      myProps["Default"] = subsystem['default']
+          
+    # enum
+    if 'enum' in subsystem:
+      myProps["Possible Values"] = subsystem['enum']
+          
+    # minimum/maximum
+    min = "no min"
+    max = "no max"
+    if 'minimum' in subsystem:
+      min = subsystem['minimum']
+    elif 'exclusiveMinimum' in subsystem:
+      min = subsystem['exclusiveMinimum']
+      
+    if 'maximum' in subsystem:
+      mxa = subsystem['maximum']
+    elif 'exclusiveMaximum' in subsystem:
+      max = subsystem['exclusiveMaximum']
+      
+    if not (min=="no min" and max=="no max"):
+      myProps["Input Bounds"] = '['+str(min)+','+str(max)+']'
+    
+    print("myProps")
+    print(myProps)
+    
+    return myProps
 
 def GetSettings(prop, subsystem):
 
@@ -22,28 +75,20 @@ def GetSettings(prop, subsystem):
 
     if subsystem['type']=='object':
         # add the top level singular one
-        if 'description' in subsystem:
-          allsettings.update({prop : subsystem['description']})
-        else:
-          allsettings.update({prop : "MISSING"})
+        allsettings.update({prop : BuildPropDictionary(subsystem)})
+
         # tunnel down one level and get attributes for each property
         for subprop in subsystem['properties']:       
             allsettings.update(GetSettings(subprop, subsystem['properties'][subprop]))
     elif subsystem['type']=='array':
         # add the top level singular one
-        if 'description' in subsystem:
-          allsettings.update({prop : subsystem['description']})
-        else:
-          allsettings.update({prop : "MISSING"})
+        allsettings.update({prop : BuildPropDictionary(subsystem)})
         # tunnel down one level and get attributes for each property
         if subsystem['items']['type']=='object':
           for subprop in subsystem['items']['properties']:       
               allsettings.update(GetSettings(subprop, subsystem['items']['properties'][subprop]))
     else:
-        if 'description' in subsystem:
-          allsettings.update({prop : subsystem['description']})
-        else:
-          allsettings.update({prop : "MISSING"})
+        allsettings.update({prop : BuildPropDictionary(subsystem)})
         
     return allsettings
     
@@ -53,7 +98,9 @@ def WriteFile(outpath, myconfigs):
     fout = open(outpath, "w+")
     
     for key in myconfigs:
-        fout.write('  - '+key+' : '+myconfigs[key]+'\n')
+        fout.write('  - `'+key+'` (*'+myconfigs[key]['Title']+'*)\n')
+        for attrib in myconfigs[key]:
+            fout.write('    - __'+attrib+'__ : '+str(myconfigs[key][attrib])+'\n')
         
     fout.close()
 
