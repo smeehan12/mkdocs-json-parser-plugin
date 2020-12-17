@@ -168,15 +168,15 @@ class JsonPlugin(BasePlugin):
                 # config parsing
                 ##############################
                 logger.info("Adding new files to local directory for configs")
-                configs = self.config["configs"]
-                for config in configs:
+                fasercons = self.config["configs"]
+                for fasercon in configs:
                 
-                    entry  = configs[config]
+                    entry  = configs[fasercon]
                 
-                    logger.info(" >> Config {0}".format(config))
+                    logger.info(" >> Fasercon {0}".format(fasercon))
                     logger.info(" >> Entry {0}".format(entry))
                     
-                    inpath  = repopath+"/"+config
+                    inpath  = repopath+"/"+fasercon
                     
                     site_dir   = config["site_dir"]
                     entry_name = str(entry+".md")
