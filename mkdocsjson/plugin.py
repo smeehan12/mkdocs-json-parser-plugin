@@ -187,6 +187,9 @@ class JsonPlugin(BasePlugin):
         logger.info(" >> File dest_path     - {0}".format(str(newfile.dest_path)))
         logger.info(" >> File abs_dest_path - {0}".format(str(newfile.abs_dest_path)))
         logger.info(" >> File url           - {0}".format(str(newfile.url)))
+        
+        
+        out.append(newfile)
             
         return mkdocs.structure.files.Files(out)
                     
