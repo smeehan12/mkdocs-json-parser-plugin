@@ -196,24 +196,38 @@ class JsonPlugin(BasePlugin):
 
                     jsonschema = json.loads(jsonstring)
                     
+                    logger.info(" schema : "+jsonstring)
+                    
                     # only look at the "settings" in the schema which are system specific configurations
+                    
                     stuff = jsonschema[entry]
                     
                     abspath = os.path.abspath(outpath)
                     
                     with open(outpath, "w") as outfile:
                       json.dump(stuff, outfile, indent=4)
+                      
+                    # strip of leading and trailing curly braces
+                    fin  = open(outfile,"r")
+                    fout = open(docs_dir+str(entry+".md"))
+                    
+                    for line in fin.readlines(1:-1):
+                      fout.write(line)
+                      
+                    fin.close()
+                    fout.close()
                         
 
                     # put the file in the local location from this temp directory
-                    command = "cp "+abspath+" "+docs_dir
-                    os.system(command)
+                    #command = "cp "+abspath+" "+docs_dir
+                    #os.system(command)
 
                     #logger.info("content : {0}".format(os.system("ls "+docs_dir)))
         
                     # get the docs path
                     path = str(abspath.split("/")[-1])
                     src_dir = docs_dir
+                    
         
                     newfile = File( path, src_dir, path, use_directory_urls=True)
         
