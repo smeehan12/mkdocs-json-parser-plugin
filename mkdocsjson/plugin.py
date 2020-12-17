@@ -164,7 +164,7 @@ class JsonPlugin(BasePlugin):
             
             # get abs_src_path for later use
             if "docs" ==  str(i.abs_src_path.split("/")[-2]):
-                docs_dir = "/"
+                docs_dir = ""
                 for dir in i.abs_src_path.split("/")[0:-1]:
                     docs_dir += dir
                     docs_dir += "/"
