@@ -10,6 +10,7 @@ from .configitems import ConfigItems
 from mkdocs.plugins import BasePlugin
 
 import mkdocs.structure.files
+from mkdocs.structure.files import File
 
 
 
@@ -145,11 +146,25 @@ class JsonPlugin(BasePlugin):
                     
         out = []
                     
+        # add existing files
         for i in files:
             name = i.src_path
             logger.info(" >> File - {0}".format(str(name)))        
-            logger.info(" >> Type - {0}".format(str(type(i))))        
+            logger.info(" >> Type - {0}".format(str(type(i))))       
+            
+            logger.info(" >> File src_path      - {0}".format(str(i.src_path)))
+            logger.info(" >> File abs_path      - {0}".format(str(i.abs_src_path)))
+            logger.info(" >> File dest_path     - {0}".format(str(i.dest_path)))
+            logger.info(" >> File abs_dest_path - {0}".format(str(i.abs_dest_path)))
+            logger.info(" >> File url           - {0}".format(str(i.url)))
+            
+             
             out.append(i)
+            
+            
+        # add the new parsed file
+        newfile = File( str(abspath), str(config["site_dir"]), str(config["site_dir"]), use_directory_urls=False)
+        
             
         return mkdocs.structure.files.Files(out)
                     
