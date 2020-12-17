@@ -133,7 +133,10 @@ class JsonPlugin(BasePlugin):
                     
                     logger.info(" >> OutpathAbs - {0}".format(str(abspath)))
                     
-                    os.system("ls "+str(config["site_dir"]))
+                    logger.info(" >> SiteDir - {0}".format(str(config["site_dir"])))
+                    
+                    fin = open(abspath,"r")
+                    logger.info(" >> Lines - {0}".format(str(len(fin.readlines()))))
                     
                         
           
