@@ -1,44 +1,24 @@
-# MkDocs Doxygen plugin
+# MkDocs Json FASER plugin
 
-This mkdocs plugin allows to generate Doxygen documentation as part of the build process.
-Doxygen is run (post-build) for each entry in the `packages` configuration entry
-(a list of mappings) and the html output moved to a subdirectory of `site_dir`,
-with the same name as the entry's key.
+This mkdocs plugin allows to point at a list of json schemas in a remote repository
+and have those schemas be parsed into meaningful markdown formatted files for 
+insertion into a site via the use of a plugin like [mkdocs-include-markdown-plugin](https://pypi.org/project/mkdocs-include-markdown-plugin/).
+
+This plugin was written expressly for use in the [FASER collaboration]() TDAQ documentation
+and so may not be as flexible as you wish.  Pull requests are welcomed!
 
 As an example, the configuration
 ```yaml
-plugins:
-  - doxygen:
-      packages:
-        - doxygen:
-            url : .
+  - json:
+      url: ssh://git@gitlab.cern.ch:7999/faser/daq.git
+      schemas: [configs/schemas/TriggerReceiver.schema, configs/schemas/DigitizerReceiver.schema]
+
 ```
-will run `doxygen` in the current project root, and move the output to `site/doxygen`.
+will clone the remote repository at `url` and
+perform the transformation for each of the schema listed in `schemas`.  It will produce
+one `.md` in the same `docs` directory as the other documentation files with the same
+base name as the schema.
 
-In addition to the `url` parameter, the Doxygen configuration file (relative to `url`)
-can be specified (by default `Doxyfile` and `doxygen.cfg` are searched for), as well as
-the working directory (relative to the directory with the Doxygen configuration file).
-
-`url` can be a local path as well as a remote url. In the latter case, `git clone` 
-is used to get a working copy (only if enabled by setting `tryclone` to true).
-
-If your doxygen is distributed across submodules linked into your top level repo
-then the `recursive` option will clone these and so the top level doxygen will
-have access to this code for collecting the documentation as well.  By default this will
-not happen.
-
-An example of such a 
-```yaml
-plugins:
-  - doxygen:
-      tryclone: yes
-      recursive: yes
-      packages:
-        - doxygen:
-            url    : .
-        - doxyfwk:
-            url    : https://github.com/cp3-llbb/Framework.git
-            config : docs/doxygen.cfg
-            workdir: . ## could be left out in this case
-```
-
+In this case, the remote `ssh://git@gitlab.cern.ch:7999/faser/daq.git` will be cloned and the two
+schemas (`configs/schemas/TriggerReceiver.schema`, `configs/schemas/DigitizerReceiver.schema`)  
+will be parsed into `docs/TriggerReceiver.md` and `docs/DigitizerReceiver.md`.

@@ -14,7 +14,9 @@ from mkdocs.structure.files import File
 
 import copy
 
-
+'''
+This builds the dictionary of relevant properties from the schema you feed it
+'''
 def BuildPropDictionary(subsystem):
 
     myProps = {}
@@ -69,6 +71,10 @@ def BuildPropDictionary(subsystem):
     
     return myProps
 
+'''
+This is the recursive function which walks through the schema you feed
+it and will either populate the settings or descend further 
+'''
 def GetSettings(prop, subsystem):
 
     allsettings = {}
@@ -92,7 +98,9 @@ def GetSettings(prop, subsystem):
         
     return allsettings
     
-    
+'''
+This writes the output markdown file with the formatting you desire
+'''
 def WriteFile(outpath, myconfigs):
 
     fout = open(outpath, "w+")
@@ -111,6 +119,9 @@ class JsonPlugin(BasePlugin):
         ("schemas", mkd.Type(list))
         )
 
+    '''
+    Us the on_files event because you need to modify the file lists
+    '''
     def on_files(self, files, config):
     
         url     = self.config["url"]
@@ -128,37 +139,16 @@ class JsonPlugin(BasePlugin):
                     reponame = "repo"
                 repopath = os.path.join(tmpDir, reponame)
                 
-                logger.info("Cloning : "+str(tmpDir)+"  "+str(reponame)+"  "+repopath)
-                
-                command = "git clone --depth 1 "+basedir+" "+repopath
-
-                logger.info("Command Call : "+command)
-                
-                #subprocess.call([command])
+                logger.info("Cloning : "+str(tmpDir)+"  "+str(reponame)+"  "+repopath)                
                 subprocess.check_call(["git", "clone", "--depth", "1", basedir, repopath], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
-                os.system("ls "+repopath)
         
-                schemas = self.config["schemas"]
-        
-                logger.info("Running json on {0}".format(url))
-                
+                logger.info("Preparing file list")
                 out = []
-    
                 docs_dir=""
-                
                 # add existing files
                 for i in files:
                     name = i.src_path
-                    logger.info(" >> File - {0}".format(str(name)))        
-                    logger.info(" >> Type - {0}".format(str(type(i))))       
-        
-                    logger.info(" >> File src_path      - {0}".format(str(i.src_path)))
-                    logger.info(" >> File abs_path      - {0}".format(str(i.abs_src_path)))
-                    logger.info(" >> File dest_path     - {0}".format(str(i.dest_path)))
-                    logger.info(" >> File abs_dest_path - {0}".format(str(i.abs_dest_path)))
-                    logger.info(" >> File url           - {0}".format(str(i.url)))
-        
+
                     # get abs_src_path for later use
                     if "docs" ==  str(i.abs_src_path.split("/")[-2]):
                         docs_dir = ""
@@ -168,22 +158,24 @@ class JsonPlugin(BasePlugin):
         
                     out.append(i)
         
+                logger.info("Adding new files to local directory")
+                schemas = self.config["schemas"]
                 for schema in schemas:
                     logger.info(" >> Schema {0}".format(schema))
                     inpath  = repopath+"/"+schema
                                     
                     
-                    logger.info(" >> Inpath {0}".format(inpath))
+                    #logger.info(" >> Inpath {0}".format(inpath))
                     outpath = os.path.abspath(os.path.join(config["site_dir"], schema.split("/")[-1].replace(".schema",".md")))
-                    logger.info(" >> Outpath {0}".format(outpath))
+                    #logger.info(" >> Outpath {0}".format(outpath))
                     
                     jsonpath = inpath.replace(".schema",".json")
                     
-                    logger.info(" >> JSonPath - {0}".format(str(inpath)))
+                    #logger.info(" >> JSonPath - {0}".format(str(inpath)))
                   
                     fin = open(inpath,"r")
                     lines = fin.readlines()
-                    logger.info(" >> NLines {0}".format(str(len(lines))))
+                    #logger.info(" >> NLines {0}".format(str(len(lines))))
             
                     import json
                     
@@ -195,41 +187,37 @@ class JsonPlugin(BasePlugin):
                     
                     myconfigs = {}
                     
+                    # only look at the "settings" in the schema which are system specific configurations
                     stuff = jsonschema["properties"]["settings"]["properties"]
                     
                     for key in stuff:
                         logger.info(" >> Prop - {0}".format(str(key)))
                         myconfigs.update(GetSettings(key, stuff[key]))
                         
-                    
-                        
-                    
+                    # writing new markdown file
                     WriteFile(outpath, myconfigs)
                         
-                    os.system("cat "+outpath)    
+                    #os.system("cat "+outpath)    
                     
                     abspath = os.path.abspath(outpath)
                     
-                    logger.info(" >> OutpathAbs - {0}".format(str(abspath)))
+                    #logger.info(" >> OutpathAbs - {0}".format(str(abspath)))
                     
-                    os.system("ls "+config["site_dir"])
+                    #os.system("ls "+config["site_dir"])
                     
-                    logger.info(" >> SiteDir - {0}".format(str(config["site_dir"])))
+                    #logger.info(" >> SiteDir - {0}".format(str(config["site_dir"])))
                     
                     fin = open(abspath,"r")
-                    logger.info(" >> Lines - {0}".format(str(len(fin.readlines()))))
+                    #logger.info(" >> Lines - {0}".format(str(len(fin.readlines()))))
                     
-                
-            
-            
                     # add the new parsed file
-                    logger.info(" New Fuckin File")
+                    #logger.info(" New Fuckin File")
         
                     # put the file in the local location from this temp directory
                     command = "cp "+abspath+" "+docs_dir
                     os.system(command)
 
-                    logger.info("content : {0}".format(os.system("ls "+docs_dir)))
+                    #logger.info("content : {0}".format(os.system("ls "+docs_dir)))
         
                     # get the docs path
                     path = str(abspath.split("/")[-1])
@@ -243,15 +231,8 @@ class JsonPlugin(BasePlugin):
                     logger.info(" >> File abs_dest_path - {0}".format(str(newfile.abs_dest_path)))
                     logger.info(" >> File url           - {0}".format(str(newfile.url)))
         
-        
                     out.append(copy.copy(newfile))
             
         return mkdocs.structure.files.Files(out)
                     
                         
-#    def on_files(self, files, config):
-#        
-#        for i in files:
-#            name = i.src_path
-#            logger.info(" >> File - {0}".format(str(name)))        
-
