@@ -171,7 +171,7 @@ class JsonPlugin(BasePlugin):
                 fasercons = self.config["configs"]
                 for fasercon in fasercons:
                 
-                    entry  = configs[fasercon]
+                    entry  = fasercons[fasercon]
                 
                     logger.info(" >> Fasercon {0}".format(fasercon))
                     logger.info(" >> Entry {0}".format(entry))
