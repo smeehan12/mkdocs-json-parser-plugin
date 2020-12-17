@@ -121,7 +121,8 @@ def WriteFile(outpath, myconfigs):
 class JsonPlugin(BasePlugin):
     config_scheme = (
         ("url", mkd.Type(str)),
-        ("schemas", mkd.Type(list))
+        ("schemas", mkd.Type(list)),
+        ("configs", mkd.Type(list))
         )
 
     '''
@@ -162,7 +163,69 @@ class JsonPlugin(BasePlugin):
                             docs_dir += "/"
         
                     out.append(i)
+                    
+                ##############################
+                # config parsing
+                ##############################
+                logger.info("Adding new files to local directory for configs")
+                configs = self.config["configs"]
+                for config_pair in configs:
+                
+                    config = config_pair[0]
+                    entry  = config_pair[1]
+                
+                    logger.info(" >> Config {0}".format(config))
+                    inpath  = repopath+"/"+config
+                                                    
+                    outpath = os.path.abspath(os.path.join(config["site_dir"], entry+".md"))
+                    
+                    jsonpath = inpath.replace(".json",".json")
+                    
+                    fin = open(inpath,"r")
+                    lines = fin.readlines()
+            
+                    import json
+                    
+                    jsonstring = ""
+                    for line in lines:
+                       jsonstring += line
+
+                    jsonschema = json.loads(jsonstring)
+                    
+                    # only look at the "settings" in the schema which are system specific configurations
+                    stuff = jsonschema[entry]
+                    
+                    abspath = os.path.abspath(outpath)
+                    
+                    with open(outpath, "w") as outfile:
+                      json.dump(stuff, outfile, indent=4)
+                        
+                    # add the new parsed file
+                    #logger.info(" New Fuckin File")
         
+                    # put the file in the local location from this temp directory
+                    command = "cp "+abspath+" "+docs_dir
+                    os.system(command)
+
+                    #logger.info("content : {0}".format(os.system("ls "+docs_dir)))
+        
+                    # get the docs path
+                    path = str(abspath.split("/")[-1])
+                    src_dir = docs_dir
+        
+                    newfile = File( path, src_dir, path, use_directory_urls=True)
+        
+                    logger.info(" >> File src_path      - {0}".format(str(newfile.src_path)))
+                    logger.info(" >> File abs_src_path  - {0}".format(str(newfile.abs_src_path)))
+                    logger.info(" >> File dest_path     - {0}".format(str(newfile.dest_path)))
+                    logger.info(" >> File abs_dest_path - {0}".format(str(newfile.abs_dest_path)))
+                    logger.info(" >> File url           - {0}".format(str(newfile.url)))
+        
+                    out.append(copy.copy(newfile))                
+
+                ##############################
+                # schema parsing
+                ##############################
                 logger.info("Adding new files to local directory")
                 schemas = self.config["schemas"]
                 for schema in schemas:
