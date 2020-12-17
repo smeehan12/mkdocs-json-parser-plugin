@@ -163,8 +163,11 @@ class JsonPlugin(BasePlugin):
             logger.info(" >> File url           - {0}".format(str(i.url)))
             
             # get abs_src_path for later use
-            if "/docs/" in str(i.abs_src_path):
-                docs_dir = str(i.abs_src_path)
+            if "docs" ==  str(i.abs_src_path.split("/")[-2]):
+                docs_dir = "/"
+                for dir in i.abs_src_path.split("/")[0:-1]
+                    docs_dir += dir
+                    docs_dir += "/"
             
              
             out.append(i)
