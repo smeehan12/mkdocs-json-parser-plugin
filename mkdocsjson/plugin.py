@@ -163,8 +163,14 @@ class JsonPlugin(BasePlugin):
             
             
         # add the new parsed file
+        logger.info(" New Fuckin File")
         newfile = File( str(abspath), str(config["site_dir"]), str(config["site_dir"]), use_directory_urls=False)
         
+        logger.info(" >> File src_path      - {0}".format(str(newfile.src_path)))
+        logger.info(" >> File abs_path      - {0}".format(str(newfile.abs_src_path)))
+        logger.info(" >> File dest_path     - {0}".format(str(newfile.dest_path)))
+        logger.info(" >> File abs_dest_path - {0}".format(str(newfile.abs_dest_path)))
+        logger.info(" >> File url           - {0}".format(str(newfile.url)))
             
         return mkdocs.structure.files.Files(out)
                     
